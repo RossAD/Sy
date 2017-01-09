@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './sticky-logo.png';
 import cartLogo from './shoppingCart.png';
+import remove from './remove.png';
 import './App.css';
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
       displayDisc: false,
       displayCart: false,
       cart: [],
+      quantityInCart: 0,
     }
     this.wholesale = this.wholesale.bind(this);
     this.display = this.display.bind(this);
@@ -39,9 +41,41 @@ class App extends Component {
     let temp = e;
     console.log('New Event: ', temp)
     let newCart = this.state.cart.slice();
-    newCart.push(temp);
-    this.setState({cart: newCart});
-    console.log('shoppingCart: ', this.state.cart);
+    let newQuant = this.state.quantityInCart;
+    let alreadyInCart = false;
+    newCart.forEach((item, index) => {
+      if(temp.id === item.id) {
+        alreadyInCart = true;
+        item.quantity += 1;
+        item.cost = item.quantity * item.currentPrice;
+        console.log('new currentPrice: ', item.cost)
+      }
+    })
+    console.log('new Cart 1: ', newCart);
+    if(!alreadyInCart){
+      temp.quantity = 1
+      newCart.push(temp);
+      console.log('shoppingCart: ', newCart);
+    }
+    newQuant++
+    return this.setState({cart: newCart, quantityInCart: newQuant});
+  }
+
+  removeFromCart(e) {
+    let newCartQuant = this.state.quantityInCart;
+    let newCart = this.state.cart.slice();
+    this.state.cart.forEach((item, index) => {
+      if(item.id === e.id){
+        if(item.quantity === 1){
+          newCart.splice(index, 1);
+        } else {
+          item.quantity--;
+          item.cost = item.quantity * item.currentPrice;
+        }
+      }
+    })
+    newCartQuant--;
+    return this.setState({cart: newCart, quantityInCart: newCartQuant});
   }
 
   componentDidMount() {
@@ -80,48 +114,62 @@ class App extends Component {
             )
             })}
         </div>)
-      
     }
   }
 
   display() {
     if(this.state.displayDisc){
-      this.setState({displayDisc: false});
+      let regularCart = this.state.cart;
+      regularCart.forEach((item) => {
+        item.cost = item.quantity * item.defaultPriceInCents;
+      })
+      return this.setState({displayDisc: false, cart: regularCart});
     } else {
-      this.setState({displayDisc: true});
+      let discountCart = this.state.cart;
+      discountCart.forEach((item) => {
+        item.cost = item.quantity * item.minPrice;
+      })
+      return this.setState({displayDisc: true, cart: discountCart});
     }
   }
 
   displayCart() {
     if(this.state.displayCart){
-      this.setState({displayCart: false})
+      return this.setState({displayCart: false})
     } else {
-      this.setState({displayCart: true})
+      return this.setState({displayCart: true})
     }
   }
 
   shoppingCart() {
     let cartTotal = 0;
     if(this.state.displayCart) {
-      return (
-        <div className='cart' style={{'zIndex': 1, 'float': 'right',
-          'position': 'absolute'}}>
-          <h2>Your shopping Cart</h2>
+        return (
+          <div className='cart' style={{'zIndex': 1, 'width': 500,
+            'position': 'absolute'}}>
+            <h2>Your shopping Cart</h2>
             <ul>
               {this.state.cart.map((item) => {
-                cartTotal += item.currentPrice;
+                cartTotal += item.cost;
                 return (
-                  <li key={item.id}>{item.name} Price: ${item.currentPrice / 100}</li>
+                  <li key={item.id} style={{'textAlign': 'left'}}>{item.name} Price: ${item.cost /
+                    100} X <b style={{color: 'red'}}>{item.quantity}</b>
+                    <img
+                      src={remove}
+                      onClick={this.removeFromCart.bind(this, item)}
+                      alt='remove from cart'
+                      style={{height: 15, width:15, paddingLeft: 20,
+                        'float':'right'}}
+                    /></li>
                   )
               })}
             </ul>
-            <h3>Total Price: {cartTotal / 100}</h3>
-        </div>
-      )
+            <h3>Total Price: $ {cartTotal / 100}</h3>
+            </div>
+        )
     } else {
       return (<div></div>)
     }
-
   }
 
   render() {
@@ -140,7 +188,7 @@ class App extends Component {
               style={{height: 40, width: 40}}
               onClick={this.displayCart}
               />
-              ({this.state.cart.length})
+              ({this.state.quantityInCart})
           </p>
           {this.shoppingCart()}
         </div>
