@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './sticky-logo.png';
 import cartLogo from './shoppingCart.png';
 import './App.css';
-import ShoppingCart from './ShoppingCart.jsx';
+import ShoppingCart from './ShoppingCart.js';
 import StoreItems from './StoreItems.js';
 
 class App extends Component {
@@ -23,6 +23,7 @@ class App extends Component {
     this.addToCart = this.addToCart.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
   }
+
   getStoreItems() {
     fetch('https://sneakpeeq-sites.s3.amazonaws.com/interviews/ce/feeds/store.js')
     .then(res => res.json())
@@ -33,6 +34,7 @@ class App extends Component {
         item.currentPrice = item.defaultPriceInCents;
         return item
       });
+      console.log("store items: ", items);
       this.setState({storeItems: items, storeObj: data});
     })
   }
@@ -139,28 +141,29 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Simple Store Front</h2>
-        </div>
-        <div className='wholesaleDisc'>
-          <p><input type="checkbox"
-              onClick={this.wholesaleDisplay} />Check if Purchasing Wholesale to apply 25% discount</p>
-          <p><img
+      <div className='App'>
+        <div className='App-header'>
+          <img src={logo} className='App-logo' alt='logo' />
+          <div className='Cart-info'><img
               className='Cart-logo'
               src={cartLogo}
               alt='shopping cart'
               onClick={this.displayCart}
-              />
-              ({this.state.quantityInCart})
-          </p>
+            />
+            ({this.state.quantityInCart})
+          </div>
+          <div className='wholesaleDisc'>
+            <input type='checkbox' onChange={this.wholesaleDisplay} />
+            Wholesale 25% Discount
+          </div>
+          <h2>Simple Store Front</h2>
+        </div>
           <ShoppingCart add={this.addToCart} remove={this.removeFromCart}
             cart={this.state.cart} cartTotal={this.state.cartTotal}
             display={this.state.displayCart} />
           <h3>{this.state.storeObj.pageTitle}</h3>
+          <p>Click item to add to cart</p>
           <StoreItems storeItems={this.state.storeItems} add={this.addToCart} />
-        </div>
       </div>
     );
   }
