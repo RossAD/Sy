@@ -4,6 +4,7 @@ import cartLogo from './shoppingCart.png';
 import './App.css';
 import ShoppingCart from './ShoppingCart.js';
 import StoreItems from './StoreItems.js';
+import Header from './Header.js';
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +38,10 @@ class App extends Component {
       console.log("store items: ", items);
       this.setState({storeItems: items, storeObj: data});
     })
+  }
+
+  componentWillMount() {
+    this.getStoreItems();
   }
 
   addToCart(e) {
@@ -91,10 +96,6 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getStoreItems();
-  }
-
   wholesaleDisplay() {
     let newCartTotal = 0;
     let newStoreItems = this.state.storeItems;
@@ -142,31 +143,21 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <div className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <div className='Cart-info'><img
-              className='Cart-logo'
-              src={cartLogo}
-              alt='shopping cart'
-              onClick={this.displayCart}
-            />
-            ({this.state.quantityInCart})
-          </div>
-          <div className='wholesaleDisc'>
-            <input type='checkbox' onChange={this.wholesaleDisplay} />
-            Wholesale 25% Discount
-          </div>
-          <h2>Simple Store Front</h2>
-        </div>
-          <ShoppingCart add={this.addToCart} remove={this.removeFromCart}
-            cart={this.state.cart} cartTotal={this.state.cartTotal}
-            display={this.state.displayCart} />
-          <h3>{this.state.storeObj.pageTitle}</h3>
-          <p>Click item to add to cart</p>
-          <StoreItems storeItems={this.state.storeItems} add={this.addToCart} />
+        <Header
+          displayCart={this.displayCart}
+          quantityInCart={this.state.quantityInCart}
+          wholesaleDisplay={this.wholesaleDisplay} />
+        <ShoppingCart
+          remove={this.removeFromCart}
+          cart={this.state.cart} cartTotal={this.state.cartTotal}
+          display={this.state.displayCart} />
+        <h3>{this.state.storeObj.pageTitle}</h3>
+        <p>Click item to add to cart</p>
+        <StoreItems
+          storeItems={this.state.storeItems}
+          add={this.addToCart} />
       </div>
     );
   }
 }
-
 export default App;

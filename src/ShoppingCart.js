@@ -8,12 +8,12 @@ class ShoppingCart extends Component {
       return (
         <div className='Cart'>
           <h2>Your shopping Cart</h2>
-          <ul>
+          <ul className='Cart-items'>
             {this.props.cart.map((item) => {
               return (
                 <li className='Cart-item' key={item.id}>
                   <span className='Quantity'>{item.quantity}</span>
-                  Qty. | {item.name} 
+                  Qty. | {item.name}
                   <span className='Price-remove'>Price: ${item.cost / 100}
                     <img
                       className='Remove-logo'
