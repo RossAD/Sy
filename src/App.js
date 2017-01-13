@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import logo from './sticky-logo.png';
-import cartLogo from './shoppingCart.png';
 import './App.css';
 import ShoppingCart from './ShoppingCart.js';
 import StoreItems from './StoreItems.js';
@@ -146,16 +144,21 @@ class App extends Component {
         <Header
           displayCart={this.displayCart}
           quantityInCart={this.state.quantityInCart}
-          wholesaleDisplay={this.wholesaleDisplay} />
+          wholesaleDisplay={this.wholesaleDisplay} 
+          cartTotal={this.state.cartTotal}
+        />
         <ShoppingCart
           remove={this.removeFromCart}
           cart={this.state.cart} cartTotal={this.state.cartTotal}
-          display={this.state.displayCart} />
+          display={this.state.displayCart}
+          displayCart={this.displayCart}
+        />
         <h3>{this.state.storeObj.pageTitle}</h3>
         <p>Click item to add to cart</p>
         <StoreItems
           storeItems={this.state.storeItems}
-          add={this.addToCart} />
+          add={this.addToCart} 
+        />
       </div>
     );
   }

@@ -6,7 +6,14 @@ class Header extends Component {
   render() {
     return (
       <div className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
+        <div className='wholesaleDisc'>
+          <input type='checkbox' onChange={this.props.wholesaleDisplay} />
+          Wholesale 25% Discount
+        </div>
+        <div className='Icon-title'>
+          <img src={logo} className='App-logo' alt='logo' />
+          <p className='Page-title'>Simple Store Front</p>
+        </div>
         <div className='Cart-info'>
           <img
             className='Cart-logo'
@@ -14,13 +21,8 @@ class Header extends Component {
             alt='shopping cart'
             onClick={this.props.displayCart}
           />
-          ({this.props.quantityInCart})
+          ({this.props.quantityInCart}) ${this.props.cartTotal / 100}
         </div>
-        <div className='wholesaleDisc'>
-          <input type='checkbox' onChange={this.props.wholesaleDisplay} />
-          Wholesale 25% Discount
-        </div>
-        <h2>Simple Store Front</h2>
       </div>
     )
   }

@@ -7,6 +7,7 @@ import testData from './testData.js';
 import { mount, shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
+
 describe('<App /> and index.js', () => {
   it('renders main App without crashing', () => {
     const div = document.createElement('div');
@@ -49,8 +50,21 @@ describe('<App /> and index.js', () => {
         });
     };
 
+    const rendered = renderer.create(
+      <App />
+    );
     const wrapper = mount(<App />);
-    console.log('get items function: ', wrapper.instance().getStoreItems);
+    wrapper.setState({storeItems: testData});
+    const divs = wrapper.find('.storeItem');
+    //divs.simulate('click');
+    divs.forEach((item) => {
+      return item.simulate('click');
+    })
+    console.log('get items function: ', wrapper.state());
+    divs.forEach((item) => {
+      return item.simulate('click');
+    })
+    console.log('get items function: ', wrapper.state());
   })
 })
 
@@ -65,6 +79,7 @@ describe('<StoreItems />', () => {
     );
 
     let tree = storeComp.toJSON();
+    console.log('My Tree: ', tree.children);
     expect(tree).toMatchSnapshot();
   })
 })

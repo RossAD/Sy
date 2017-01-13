@@ -6,8 +6,8 @@ class ShoppingCart extends Component {
   render() {
     if(this.props.display) {
       return (
-        <div className='Cart'>
-          <h2>Your shopping Cart</h2>
+        <div className='Cart' onClick={this.props.displayCart}>
+          <p className='Cart-title'>Your shopping Cart</p>
           <ul className='Cart-items'>
             {this.props.cart.map((item) => {
               return (
@@ -26,7 +26,7 @@ class ShoppingCart extends Component {
                   )
             })}
           </ul>
-          <h3>Total Price: $ {this.props.cartTotal / 100}</h3>
+          <p>Total Price: $ {this.props.cartTotal / 100}</p>
         </div>
       )
     } else {

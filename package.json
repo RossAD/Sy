@@ -13,6 +13,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
     "jest": "^18.1.0",
+    "jest-fetch-mock": "^1.0.6",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts": "0.8.4",
     "react-test-renderer": "^15.4.2"
@@ -26,5 +27,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   }
 }

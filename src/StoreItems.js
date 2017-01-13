@@ -4,7 +4,7 @@ class StoreItems extends Component {
 
   render() {
     return (
-      <div>{this.props.storeItems.map((item) => {
+      <div className='Store-block'>{this.props.storeItems.map((item) => {
         return (
           <div className='storeItem' key={item.id} value={item}
             onClick={this.props.add.bind(this, item)} >
