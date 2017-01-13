@@ -21,6 +21,8 @@ describe('<App /> and index.js', () => {
 
   it('should call Wholesale function on checkbox change', () => {
     const wrapper = mount(<App />);
+    let tempData = testData;
+    wrapper.setState({storeItems: tempData, cart: tempData});
     const p = wrapper.find('input');
     p.simulate('change');
     console.log('wrapper: ', wrapper.state().storeObj);
@@ -39,32 +41,65 @@ describe('<App /> and index.js', () => {
     expect(wrapper.state().displayCart).toEqual(false);
   })
 
-  pit('calls request and success actions if the fetch response was successful', () => {
-    const mockResponse = (status, statusText, response) => {
-      return new window.Response(response, {
-          status: status,
-          statusText: statusText,
-          headers: {
-                'Content-type': 'application/json'
-              }
-        });
-    };
+  it('calls calls add method and adds item to cart', () => {
+    /*
+     *const mockResponse = (status, statusText, response) => {
+     *  return new window.Response(response, {
+     *      status: status,
+     *      statusText: statusText,
+     *      headers: {
+     *            'Content-type': 'application/json'
+     *          }
+     *    });
+     *};
+     */
 
-    const rendered = renderer.create(
-      <App />
-    );
+    let tempData = testData;
     const wrapper = mount(<App />);
-    wrapper.setState({storeItems: testData});
-    const divs = wrapper.find('.storeItem');
-    //divs.simulate('click');
-    divs.forEach((item) => {
+    wrapper.setState({storeItems: tempData});
+    const storeItems = wrapper.find('.storeItem');
+    /*Initial click to add new items to cart*/
+    storeItems.forEach((item) => {
       return item.simulate('click');
     })
-    console.log('get items function: ', wrapper.state());
-    divs.forEach((item) => {
+    /*Second click to increase quantity of items in cart*/
+    storeItems.forEach((item) => {
       return item.simulate('click');
     })
-    console.log('get items function: ', wrapper.state());
+  })
+
+  it('calls the remove method, successfully decrements quantity of item in cart', () => {
+    let tempData = testData;
+    const wrapper = mount(<App />);
+    wrapper.setState({cart: tempData, displayCart: true});
+    const cartItems = wrapper.find('.Cart-item');
+    //Iterate through items and simulate click at index 1 to decrement quantity
+    cartItems.forEach((item) => {
+      if(item.key() === "1235"){
+        let removal = item.find('.Remove-logo')
+        console.log('item? ', removal);
+        return removal.simulate('click');
+      }
+    })
+    console.log('cart item removal?',wrapper.state().cart);
+    expect(wrapper.state().cart[1].quantity).toEqual(1);
+    wrapper.unmount();
+  })
+
+  it('calls the remove method to remove item fully from cart', () => {
+    let tempData1 = testData;
+    const wrapper = mount(<App />);
+    wrapper.setState({cart: tempData1, displayCart: true});
+    const cartItems = wrapper.find('.Cart-item');
+    //Iterate through items and simulate 2 clicks at index 2 to decrement quantity
+    cartItems.forEach((item, index) => {
+      if(item.key() === "1235"){
+        let removal = item.find('.Remove-logo')
+        return removal.simulate('click');
+      }
+    })
+    console.log('new cart', wrapper.state().cart);
+    expect(wrapper.state().cart.length).toEqual(2);
   })
 })
 
@@ -79,7 +114,6 @@ describe('<StoreItems />', () => {
     );
 
     let tree = storeComp.toJSON();
-    console.log('My Tree: ', tree.children);
     expect(tree).toMatchSnapshot();
   })
 })
