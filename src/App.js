@@ -16,11 +16,13 @@ class App extends Component {
       cart: [],
       quantityInCart: 0,
       cartTotal: 0,
+      searchTerm: '',
     }
     this.wholesaleDisplay = this.wholesaleDisplay.bind(this);
     this.displayCart = this.displayCart.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
+    this.handleSearchTermEvent = this.handleSearchTermEvent.bind(this);
   }
 
   setPricesState(data) {
@@ -30,19 +32,27 @@ class App extends Component {
       item.currentPrice = item.defaultPriceInCents;
       return item
     });
-    return this.setState({storeItems: items, storeObj: data});
+    return items;
   }
 
   getStoreItems() {
     fetch('https://sneakpeeq-sites.s3.amazonaws.com/interviews/ce/feeds/store.js')
     .then(res => res.json())
     .then(data => {
-      this.setPricesState(data);
+      const items = this.setPricesState(data);
+      this.setState({storeItems: items, storeObj: data});
+    })
+    .catch((error) => {
+      throw error;
     })
   }
 
   componentWillMount() {
     this.getStoreItems();
+  }
+
+  handleSearchTermEvent(event) {
+    this.setState({searchTerm: event.target.value});
   }
 
   addToCart(e) {
@@ -149,6 +159,8 @@ class App extends Component {
           quantityInCart={this.state.quantityInCart}
           wholesaleDisplay={this.wholesaleDisplay}
           cartTotal={this.state.cartTotal}
+          handleSearchTermEvent={this.handleSearchTermEvent}
+          searchTerm={this.state.searchTerm}
         />
         <ShoppingCart
           remove={this.removeFromCart}
@@ -159,6 +171,7 @@ class App extends Component {
         <h3>{this.state.storeObj.pageTitle}</h3>
         <p>Click item to add to cart</p>
         <StoreItems
+          searchTerm={this.state.searchTerm}
           storeItems={this.state.storeItems}
           add={this.addToCart}
         />

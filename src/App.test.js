@@ -24,7 +24,7 @@ describe('<App /> and index.js', () => {
     const wrapper = mount(<App />);
     let tempData = testData;
     wrapper.setState({storeItems: tempData, cart: tempData});
-    const checkBox = wrapper.find('input');
+    const checkBox = wrapper.find('.Wholesale-check');
     checkBox.simulate('change');
     expect(wrapper.state().displayDisc).toEqual(true);
     checkBox.simulate('change');
@@ -114,10 +114,11 @@ describe('<App /> and index.js', () => {
 
 describe('<StoreItems />', () => {
   it('renders StoreItems without crashing', () => {
-    const div = document.createElement('div');
+    //const div = document.createElement('div');
     const addToCart = (e) => {
       return console.log('Test', e);
     }
+    //ReactDOM.render(<StoreItems storeItems={testData} add={addToCart} />)
     const storeComp = renderer.create(
       <StoreItems storeItems={testData} add={addToCart} />
     );
