@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import StoreItems from './StoreItems.js';
 import ShoppingCart from './ShoppingCart.js';
+import testBlob from './testBlob.js';
 import testData from './testData.js';
 import { mount, shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
@@ -23,37 +24,23 @@ describe('<App /> and index.js', () => {
     const wrapper = mount(<App />);
     let tempData = testData;
     wrapper.setState({storeItems: tempData, cart: tempData});
-    const p = wrapper.find('input');
-    p.simulate('change');
-    console.log('wrapper: ', wrapper.state().storeObj);
+    const checkBox = wrapper.find('input');
+    checkBox.simulate('change');
     expect(wrapper.state().displayDisc).toEqual(true);
-    p.simulate('change');
+    checkBox.simulate('change');
     expect(wrapper.state().displayDisc).toEqual(false);
   })
 
   it('should call displayCart function on icon click', () => {
     const wrapper = mount(<App />);
-    const p = wrapper.find('.Cart-logo');
-    p.simulate('click');
-    //console.log('Cart logo: ', wrapper.state().storeItems);
+    const cartLogo = wrapper.find('.Cart-logo');
+    cartLogo.simulate('click');
     expect(wrapper.state().displayCart).toEqual(true);
-    p.simulate('click');
+    cartLogo.simulate('click');
     expect(wrapper.state().displayCart).toEqual(false);
   })
 
   it('calls calls add method and adds item to cart', () => {
-    /*
-     *const mockResponse = (status, statusText, response) => {
-     *  return new window.Response(response, {
-     *      status: status,
-     *      statusText: statusText,
-     *      headers: {
-     *            'Content-type': 'application/json'
-     *          }
-     *    });
-     *};
-     */
-
     let tempData = testData;
     const wrapper = mount(<App />);
     wrapper.setState({storeItems: tempData});
@@ -77,11 +64,9 @@ describe('<App /> and index.js', () => {
     cartItems.forEach((item) => {
       if(item.key() === "1235"){
         let removal = item.find('.Remove-logo')
-        console.log('item? ', removal);
         return removal.simulate('click');
       }
     })
-    console.log('cart item removal?',wrapper.state().cart);
     expect(wrapper.state().cart[1].quantity).toEqual(1);
     wrapper.unmount();
   })
@@ -98,8 +83,32 @@ describe('<App /> and index.js', () => {
         return removal.simulate('click');
       }
     })
-    console.log('new cart', wrapper.state().cart);
     expect(wrapper.state().cart.length).toEqual(2);
+  })
+
+  it('stores returned data in state', () => {
+    const mockResponse = (status, statusText, response) => {
+      return new window.Response(response, {
+        status: status,
+        statusText: statusText,
+        headers: {
+          'Content-type': 'application/json'
+        }
+      });
+    };
+    global.fetch = require('jest-fetch-mock');
+    let blob = JSON.stringify(testBlob);
+    fetch.mockResponse(blob);
+    let p1 = new Promise(
+      (resolve, reject) => {
+        const wrapper = mount(<App />);
+        resolve(wrapper);
+      }
+    );
+    p1.then((val) => {
+        return expect(wrapper.state().cartItems.length).toBeGreaterThan(0);
+      }
+    )
   })
 })
 

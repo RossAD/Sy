@@ -23,18 +23,21 @@ class App extends Component {
     this.removeFromCart = this.removeFromCart.bind(this);
   }
 
+  setPricesState(data) {
+    let items = data.products.map(item => {
+      item.minPrice -= item.minPrice * 0.25;
+      item.minPrice = Math.round(item.minPrice);
+      item.currentPrice = item.defaultPriceInCents;
+      return item
+    });
+    return this.setState({storeItems: items, storeObj: data});
+  }
+
   getStoreItems() {
     fetch('https://sneakpeeq-sites.s3.amazonaws.com/interviews/ce/feeds/store.js')
     .then(res => res.json())
     .then(data => {
-      let items = data.products.map(item => {
-        item.minPrice -= item.minPrice * 0.25;
-        item.minPrice = Math.round(item.minPrice);
-        item.currentPrice = item.defaultPriceInCents;
-        return item
-      });
-      console.log("store items: ", items);
-      this.setState({storeItems: items, storeObj: data});
+      this.setPricesState(data);
     })
   }
 
@@ -144,7 +147,7 @@ class App extends Component {
         <Header
           displayCart={this.displayCart}
           quantityInCart={this.state.quantityInCart}
-          wholesaleDisplay={this.wholesaleDisplay} 
+          wholesaleDisplay={this.wholesaleDisplay}
           cartTotal={this.state.cartTotal}
         />
         <ShoppingCart
@@ -157,7 +160,7 @@ class App extends Component {
         <p>Click item to add to cart</p>
         <StoreItems
           storeItems={this.state.storeItems}
-          add={this.addToCart} 
+          add={this.addToCart}
         />
       </div>
     );
