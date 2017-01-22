@@ -5,8 +5,22 @@ import Search from './Search.js';
 
 class Header extends Component {
   render() {
+    /*
+     *const AppHeader = {
+     *  display: "flex",
+     *  flexDirection: "row",
+     *  justifyContent: "space-between",
+     *  position: "relative",
+     *  backgroundColor: "#95bff3",
+     *  height: 70,
+     *  padding: 10,
+     *  color: "white",
+     *  border: 1,
+     *  borderStyle: "solid"
+     *  }
+     */
     return (
-      <div className='App-header'>
+      <div className='App-header' >
         <div className='wholesaleDisc'>
           <input className='Wholesale-check' type='checkbox' onChange={this.props.wholesaleDisplay} />
           Wholesale 25% Discount
@@ -15,11 +29,11 @@ class Header extends Component {
           <img src={logo} className='App-logo' alt='logo' />
           <p className='Page-title'>Simple Store Front</p>
         </div>
-        <Search
-          handleSearchTermEvent={this.props.handleSearchTermEvent}
-          searchTerm={this.props.searchTerm}
-        />
-        <div className='Cart-info'>
+        <div className='Cart-search'>
+          <Search
+            handleSearchTermEvent={this.props.handleSearchTermEvent}
+            searchTerm={this.props.searchTerm}
+          />
           <img
             className='Cart-logo'
             src={cartLogo}

@@ -13,9 +13,13 @@ class ItemCard extends Component {
           src={this.props.item.mainImage.ref}
           alt='item'
         />
-        <p>{this.props.item.name}</p>
-        <p>Price: ${this.props.item.currentPrice / 100}</p>
-        <p>MSRP: ${this.props.item.msrpInCents / 100}</p>
+        <div className='Item-name'>
+          <p>{this.props.item.name}</p>
+        </div>
+        <div className='Item-prices'>
+          <p className={(this.props.displayDisc ? 'discount' : '')}>Price: ${this.props.item.currentPrice / 100}</p>
+          <p>MSRP: ${this.props.item.msrpInCents / 100}</p>
+        </div>
       </div>
     )
   }

@@ -1,5 +1,5 @@
 /*Start CSS Reset*/
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
 v2.0 | 20110126
 License: none (public domain)
  */
@@ -13,8 +13,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
@@ -25,7 +25,7 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
@@ -53,30 +53,46 @@ table {
 }
 
 .App-logo {
-  height: 2em;
+  height: 30px;
 }
 
 .App-header {
-  display: inline-block;
-  width: 98%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
   background-color: #95bff3;
-  height: 5em;
-  padding: 1em;
+  height: 70px;
+  padding: 10px;
   color: white;
+  border: 1px;
+  border-style: solid;
 }
 
-.Icon-title {
-  float:center;
+.Page-title {
+  font-family: futura;
+  font-size: 25px;
+  padding-bottom: 10px;
+  float: center;
+  text-align: center;
+}
+
+.wholesaleDisc {
+}
+
+.Search-input {
+  cursor: pointer;
+
 }
 
 .Cart-info {
-  float: right;
-  padding-right: 2em;
 }
 
 .Cart-logo {
-  height: 2em;
-  width: 2em;
+  height: 30px;
+  width: 30px;
+  padding-top: 10px;
+  padding-right: 10px;
 }
 
 .Cart-logo:hover {
@@ -86,45 +102,60 @@ table {
 }
 
 .Cart {
-  padding: 1em;
+  padding: 10px;
   margin: auto;
-  top: 7em;
-  right: 5em;
+  top: 80px;
+  right: 15px;
   background: white;
   opacity: 0.95;
   z-index: 1;
-  width: 30em;
+  width: 500px;
   position: absolute;
-  border: .1em;
+  border: 1px;
   border-style: solid;
-  border-radius: .5em;
+  border-radius: 5px;
   border-color: grey;
-  box-shadow: .2em .2em .1em lightgrey;
+  box-shadow: 2px 2px 1px lightgrey;
+}
+
+.exit {
+  float: left;
+}
+
+.exit:hover{
+  color: red;
+  cursor: pointer;
 }
 
 .Cart-item {
   text-align:left;
+  padding-bottom: 5px;
 }
 
 .Price-remove {
   position: absolute;
-  right: 1em;
-  padding-right: 1em;
-  padding-left: 1em;
+  right: 10px;
+  padding-right: 10px;
+  padding-left: 1px;
 }
 
 .Quantity {
   text-align: center;
-  height: 2em;
-  width: 2em;
+  height: 20px;
+  width: 20px;
   color: red;
-  margin: .5em;
+  margin: 5px;
+}
+
+.Cart-total {
+  padding: 10px;
+  font-weight: bold;
 }
 
 .Remove-logo {
-  height: 1em;
-  width:1em;
-  padding-left: 2em;
+  height: 15px;
+  width: 15px;
+  padding-left: 20px;
   text-align: right;
 }
 
@@ -139,41 +170,57 @@ table {
 
 .Store-block {
   margin: auto;
-  padding: 1em;
+  padding: 10px;
 }
 
 .storeItems {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   text-align: center;
 }
 
 .Item-image {
-  border: 1em;
-  border-radius: 1em;
+  border: 1px;
+  border-radius: 10px;
   border-style: hidden;
+  width:75%;
 }
 .storeItem {
   float: left;
-  border: .1em;
+  border: 1px;
   border-style: solid;
-  border-radius: .5em;
+  border-radius: 5px;
   border-color: lightgrey;
-  margin: 1em;
+  margin: 10px;
+  width: 30%;
 }
 
 .storeItem:hover {
-  box-shadow: .4em .4em .2em #95bff3;
+  box-shadow: 2px 2px 1px #95bff3;
   opacity: 0.75;
   cursor: pointer;
 }
 
-.wholesaleDisc {
-  float: left;
+.Item-name {
+  padding: 5px;
+  font-family: sans-serif;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.discount {
+  color: red;
+}
+
+.Item-prices {
+  padding-bottom: 10px;
 }
 
 .Cart-title {
-  padding-bottom: 1em;
-  font-size: 2em;
+  padding-bottom: 10px;
+  font-size: 20px;
   font-style: bold;
+  text-decoration: underline;
 }
 

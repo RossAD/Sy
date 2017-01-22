@@ -168,12 +168,15 @@ class App extends Component {
           display={this.state.displayCart}
           displayCart={this.displayCart}
         />
-        <h3>{this.state.storeObj.pageTitle}</h3>
+        <div className='Page-title'>
+          <p>{this.state.storeObj.pageTitle}</p>
+        </div>
         <p>Click item to add to cart</p>
         <StoreItems
           searchTerm={this.state.searchTerm}
           storeItems={this.state.storeItems}
           add={this.addToCart}
+          displayDisc={this.state.displayDisc}
         />
       </div>
     );

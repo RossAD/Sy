@@ -9,8 +9,10 @@ class Search extends Component {
             className='Search-input'
             value={this.props.searchTerm}
             onChange={this.props.handleSearchTermEvent}
-            type='text'
+            type='search'
             placeholder='Search'
+            results='5'
+            name='s'
           />
         </form>
       </div>

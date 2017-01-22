@@ -10,7 +10,7 @@ class StoreItems extends Component {
         {this.props.storeItems
           .filter((item) => `${item.name}`.toUpperCase().indexOf(`${this.props.searchTerm}`.toUpperCase()) >= 0)
           .map((item) => (
-            <ItemCard item={item} add={this.props.add} key={item.id} />
+            <ItemCard item={item} add={this.props.add} key={item.id} displayDisc={this.props.displayDisc} />
           ))
         }
         </div>
@@ -19,7 +19,7 @@ class StoreItems extends Component {
       return (
         <div className='Store-block'>
           {this.props.storeItems.map((item) => {
-            return <ItemCard item={item} add={this.props.add} key={item.id} />
+            return <ItemCard item={item} add={this.props.add} key={item.id} displayDisc={this.props.displayDisc} />
           })}
         </div>
       )
